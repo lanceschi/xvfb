@@ -170,7 +170,9 @@ Xvfb.prototype = {
 
       self._process = spawn('Xvfb', allArguments)
       self._process.stderr.on('data', function(data) {
-        stderr.push(data.toString())
+        console.log('stderr on data');
+        console.log(data.toString());
+        //stderr.push(data.toString())
 
         if (self._silent) {
           return
