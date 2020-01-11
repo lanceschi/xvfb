@@ -178,7 +178,7 @@ Xvfb.prototype = {
           return
         }
 
-        self._onStderrData(data)
+        //self._onStderrData(data)
       })
 
       self._process.on('close', (code, signal) => {
