@@ -47,15 +47,16 @@ Xvfb.prototype = {
 
         let totalTime = 0
         ;(function checkIfStarted() {
-          debug('checking if started by looking for the lock file', lockFile)
-          fs.exists(lockFile, function(exists) {
+          debug('+++++++++++++++++++ checking if started by looking for the lock file', lockFile)
+          const exists = fs.existsSync(lockFile);
+          //fs.exists(lockFile, function(exists) {
             if (didSpawnFail) {
               // When spawn fails, the callback will immediately be called.
               // So we don't have to check whether the lock file exists.
               debug('while checking for lock file, saw that spawn failed')
               return
             }
-            if (exists) {
+            if (exists === true) {
               debug('lock file %s found after %d ms', lockFile, totalTime)
               return cb && cb(null, self._process)
             } else {
@@ -73,7 +74,7 @@ Xvfb.prototype = {
                 setTimeout(checkIfStarted, 10)
               }
             }
-          })
+          //})
         })()
       })
     }
@@ -92,7 +93,8 @@ Xvfb.prototype = {
       (function checkIfStopped() {
         console.log(`++++++++++++++++++ checkIfStopped: check if ${lockFile} exists`)
         const exists = fs.existsSync(lockFile);
-        if (!exists) {
+
+        if (exists === false) {
           debug('lock file %s not found when stopping', lockFile)
           return cb && cb(null, self._process)
         } else {
