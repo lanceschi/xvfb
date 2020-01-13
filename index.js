@@ -205,7 +205,7 @@ Xvfb.prototype = {
         onError(e)
       })
 
-      child.on('exit', function (code, signal) {
+      self._process.on('exit', function (code, signal) {
         console.log('++++++++++++++++ Xvfb child process exited with ' +
                     `code ${code} and signal ${signal}`);
       });
