@@ -169,6 +169,10 @@ Xvfb.prototype = {
       debug('all Xvfb arguments', allArguments)
 
       self._process = spawn('Xvfb', allArguments)
+      self._process.stdout.on('data', (data) => {
+        console.log(`++++++++++++++++++++ Xvfb stdout\n`);
+        console.log(data.toString());
+      });
       self._process.stderr.on('data', function(data) {
         //console.log('stderr on data');
         //console.log(data.toString());
