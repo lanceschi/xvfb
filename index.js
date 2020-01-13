@@ -88,8 +88,9 @@ Xvfb.prototype = {
 
       let lockFile = self._lockFile()
       debug('lock file', lockFile)
-      let totalTime = 0
-      ;(function checkIfStopped() {
+      let totalTime = 0;
+      (function checkIfStopped() {
+        console.log(`++++++++++++++++++ checkIfStopped: check if ${lockFile} exists`)
         fs.exists(lockFile, function(exists) {
           if (!exists) {
             debug('lock file %s not found when stopping', lockFile)
