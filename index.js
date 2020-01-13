@@ -97,13 +97,13 @@ Xvfb.prototype = {
         const exists = fs.existsSync(lockFile);
 
         if (exists === false) {
-          debug('lock file %s not found when stopping', lockFile)
+          console.warn('lock file %s not found when stopping', lockFile)
           return cb && cb(null, self._process)
         } else {
           totalTime += 10
           if (totalTime > self._timeout) {
-            debug('lock file %s is still there', lockFile)
-            debug(
+            console.warn('lock file %s is still there', lockFile)
+            console.warn(
               'after waiting for %d ms (timeout %d ms)',
               totalTime,
               self._timeout
