@@ -204,6 +204,11 @@ Xvfb.prototype = {
         debug(e)
         onError(e)
       })
+
+      child.on('exit', function (code, signal) {
+        console.log('++++++++++++++++ Xvfb child process exited with ' +
+                    `code ${code} and signal ${signal}`);
+      });
     }
   },
 
