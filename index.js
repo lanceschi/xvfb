@@ -91,27 +91,27 @@ Xvfb.prototype = {
       let totalTime = 0;
       (function checkIfStopped() {
         console.log(`++++++++++++++++++ checkIfStopped: check if ${lockFile} exists`)
-        fs.exists(lockFile, function(exists) {
-          if (!exists) {
-            debug('lock file %s not found when stopping', lockFile)
-            return cb && cb(null, self._process)
+        const exists = fs.existsSync(lockFile);
+        if (!exists) {
+          debug('lock file %s not found when stopping', lockFile)
+          return cb && cb(null, self._process)
+        } else {
+          totalTime += 10
+          if (totalTime > self._timeout) {
+            debug('lock file %s is still there', lockFile)
+            debug(
+              'after waiting for %d ms (timeout %d ms)',
+              totalTime,
+              self._timeout
+            )
+            const err = new Error('Could not stop Xvfb.')
+            err.timedOut = true
+            return cb && cb(err)
           } else {
-            totalTime += 10
-            if (totalTime > self._timeout) {
-              debug('lock file %s is still there', lockFile)
-              debug(
-                'after waiting for %d ms (timeout %d ms)',
-                totalTime,
-                self._timeout
-              )
-              const err = new Error('Could not stop Xvfb.')
-              err.timedOut = true
-              return cb && cb(err)
-            } else {
-              setTimeout(checkIfStopped, 10)
-            }
+            setTimeout(checkIfStopped, 10)
           }
-        })
+        }
+
       })()
     } else {
       return cb && cb(null)
