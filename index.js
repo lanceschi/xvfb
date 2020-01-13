@@ -45,8 +45,8 @@ Xvfb.prototype = {
           return cb && cb(e)
         }
 
-        let totalTime = 0
-        ;(function checkIfStarted() {
+        let totalTime = 0;
+        (function checkIfStarted() {
           debug('+++++++++++++++++++ checking if started by looking for the lock file', lockFile)
           const exists = fs.existsSync(lockFile);
           //fs.exists(lockFile, function(exists) {
@@ -56,10 +56,12 @@ Xvfb.prototype = {
               debug('while checking for lock file, saw that spawn failed')
               return
             }
+
             if (exists === true) {
               debug('lock file %s found after %d ms', lockFile, totalTime)
               return cb && cb(null, self._process)
             } else {
+              console.warn(`+++++++++++++++++ lock file ${lockFile} not found`)
               totalTime += 10
               if (totalTime > self._timeout) {
                 debug(
